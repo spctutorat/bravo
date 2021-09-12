@@ -8,6 +8,7 @@ export class EnvironmentVarError extends Error {
 
 type Env = {
 	DISCORD_TOKEN: string;
+	SENTRY_KEY: string;
 	NODE_ENV: "development" | "production";
 };
 
@@ -27,7 +28,7 @@ export function env<K extends keyof Env, F extends LiteralUnion<Env[K]>>(
 		return data;
 	} else {
 		if (fallback === undefined) throw new EnvironmentVarError(key);
-		if (typeof fallback === "function") return (fallback as () => unknown)();
+		if (typeof fallback === "function") return fallback();
 		return fallback;
 	}
 }
