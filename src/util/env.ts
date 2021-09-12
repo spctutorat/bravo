@@ -8,7 +8,7 @@ export class EnvironmentVarError extends Error {
 
 type Env = {
 	DISCORD_TOKEN: string;
-	SENTRY_KEY: string;
+	SENTRY_DSN: string;
 	NODE_ENV: "development" | "production";
 };
 
