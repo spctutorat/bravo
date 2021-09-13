@@ -12,8 +12,6 @@ const commands: { name: string; description: string }[] = [
 const rest = new REST({ version: "9" }).setToken(env("DISCORD_TOKEN"));
 
 export async function registerInteractions(): Promise<void> {
-	console.log("Started refreshing application (/) commands.");
-
 	await rest.put(
 		Routes.applicationGuildCommands(env("DISCORD_ID"), env("GUILD_ID")),
 		{
