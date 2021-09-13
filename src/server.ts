@@ -3,6 +3,8 @@ import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
 import { env } from "./util/env";
 
+import { loginRouter } from "./routes/login";
+
 // Express web server
 const app = express();
 
@@ -23,6 +25,7 @@ app.use(Sentry.Handlers.tracingHandler());
 app.get("/", function rootHandler(req, res) {
 	res.end("Hello world!");
 });
+app.use("/login", loginRouter);
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());

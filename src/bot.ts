@@ -19,3 +19,5 @@ client.on("interactionCreate", async interaction => {
 });
 
 client.login(env("DISCORD_TOKEN"));
+
+export default client;
