@@ -21,7 +21,6 @@ Sentry.init({
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 
-// All controllers should live here
 app.get("/", function rootHandler(req, res) {
 	res.end("Hello world!");
 });
@@ -33,8 +32,6 @@ app.use(Sentry.Handlers.errorHandler());
 // Optional fallthrough error handler
 app.use(function onError(err, req, res, next) {
 	if (!err) return next();
-	// The error id is attached to `res.sentry` to be returned
-	// and optionally displayed to the user for support.
 	res.status(500).json({ code: "UNHANDLED_ERROR" });
 } as ErrorRequestHandler);
 
