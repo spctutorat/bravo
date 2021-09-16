@@ -1,4 +1,5 @@
 import Discord, { Intents } from "discord.js";
+import { pingHandler } from "./commands/ping";
 import { env } from "./util/env";
 import { registerInteractions } from "./util/registerInteractions";
 
@@ -14,7 +15,8 @@ client.on("interactionCreate", async interaction => {
 	if (!interaction.isCommand()) return;
 
 	if (interaction.commandName === "ping") {
-		await interaction.reply("Pong!");
+		pingHandler(client, interaction);
+		return;
 	}
 });
 
