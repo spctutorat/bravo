@@ -1,12 +1,17 @@
 import express, { ErrorRequestHandler } from "express";
+import cors from "cors";
+import morgan from "morgan";
 import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
 import { env } from "./util/env";
 
 import { loginRouter } from "./routes/login";
+import { getUserRouter } from "./routes/getUser";
 
 // Express web server
 const app = express();
+app.use(express.json());
+app.use(morgan("dev"));
 
 Sentry.init({
 	dsn: env("SENTRY_DSN"),
@@ -21,10 +26,17 @@ Sentry.init({
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+	})
+);
+
 app.get("/", function rootHandler(req, res) {
 	res.end("Hello world!");
 });
 app.use("/login", loginRouter);
+app.use("/getUser", getUserRouter);
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
