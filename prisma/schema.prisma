@@ -11,7 +11,7 @@ generator client {
 }
 
 model User {
-  ecoledirecteId  Int         @id @unique
+  id              Int         @id @unique
   discordId       String      @unique
   createdAt       DateTime    @default(now()) @db.Timestamp(6)
   lastValidated   DateTime    @default(now()) @db.Timestamp(6)

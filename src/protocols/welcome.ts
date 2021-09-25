@@ -1,9 +1,10 @@
 // Triggered when ED & Discord access is given
 
 import { APIUser } from "discord-api-types";
+import { Student } from "ecoledirecte.js";
 import client from "../bot";
 
-export async function welcomeProtocol(doc: APIUser) {
+export async function welcomeProtocol(doc: APIUser, student: Student) {
 	const user =
 		client.users.cache.get(doc.id) || (await client.users.fetch(doc.id));
 

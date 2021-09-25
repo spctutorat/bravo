@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { EcoleDirecteAPIError, Session } from "ecoledirecte.js";
+import { EcoleDirecteAPIError, Session, Student } from "ecoledirecte.js";
 import { getTokenFromRefresh, getUserFromToken } from "../util/discord";
 import { welcomeProtocol } from "../protocols/welcome";
+import prisma from "../util/db";
 
 const router = Router();
 
@@ -20,12 +21,20 @@ router.use("/", async (req, res) => {
 	);
 	if (!user) return res.status(400).send();
 
-	//TODO Check if Discord user doesn't already exist in database
+	// Check if Discord user doesn't already exist in database
+	const imposterA = await prisma.user.findUnique({
+		where: { discordId: user.id },
+	});
+	if (imposterA)
+		return res
+			.status(400)
+			.json({ message: "Ce compte Discord est déjà utilisé." });
 
-	//TODO Check EcoleDirecte
+	// Login to EcoleDirecte
 	const s = new Session(body.username, body.password);
 	const a = await s.login().catch((err: EcoleDirecteAPIError) => {
 		//TODO Handle error
+		res.status(400).json({ err });
 		return;
 	});
 	if (!a) return;
@@ -34,16 +43,33 @@ router.use("/", async (req, res) => {
 			.status(400)
 			.json({ message: "Seuls les élèves sont autorisés." });
 
-	//TODO Check if ED student isn't already used
+	// Check if ED student isn't already used
+	const imposterB = await prisma.user.findUnique({
+		where: { id: a.edId },
+	});
+	if (imposterB)
+		return res
+			.status(400)
+			.json({ message: "Ce compte EcoleDirecte est déjà utilisé." });
 
 	// Is good
+	const fullName = (a: Student) => `${a._raw.prenom} ${a._raw.nom}`;
 
 	//TODO Save user
+	const created = await prisma.user.create({
+		data: {
+			id: a.edId,
+			discordId: user.id,
+			fullName: fullName(a),
+			username: body.username,
+			password: body.password,
+		},
+	});
 
-	res.status(200).send(user);
+	res.status(200).json({ user });
 
 	// Welcome Protocol
-	welcomeProtocol(user);
+	welcomeProtocol(user, a);
 });
 
 export default router;
