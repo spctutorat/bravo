@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Session } from "ecoledirecte.js";
+import { EcoleDirecteAPIError, Session } from "ecoledirecte.js";
 import { getTokenFromRefresh, getUserFromToken } from "../util/discord";
 import { welcomeProtocol } from "../protocols/welcome";
 
@@ -13,16 +13,18 @@ router.use("/", async (req, res) => {
 		token: string;
 	};
 
-	const token = await getTokenFromRefresh(body.token).catch(err => undefined);
+	const token = await getTokenFromRefresh(body.token).catch(() => undefined);
 	if (!token) return res.status(400).send();
 	const user = await getUserFromToken(token.access_token).catch(
-		err => undefined
+		() => undefined
 	);
 	if (!user) return res.status(400).send();
 
+	//TODO Check if Discord user doesn't already exist in database
+
 	//TODO Check EcoleDirecte
 	const s = new Session(body.username, body.password);
-	const a = await s.login().catch(err => {
+	const a = await s.login().catch((err: EcoleDirecteAPIError) => {
 		//TODO Handle error
 		return;
 	});
@@ -31,6 +33,8 @@ router.use("/", async (req, res) => {
 		return res
 			.status(400)
 			.json({ message: "Seuls les élèves sont autorisés." });
+
+	//TODO Check if ED student isn't already used
 
 	// Is good
 
