@@ -18,4 +18,5 @@ model User {
   username        String
   password        String
   fullName        String
+  photo           Bytes?       @db.ByteA
 }

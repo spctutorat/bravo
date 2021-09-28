@@ -1,6 +1,6 @@
 // Triggered when ED & Discord access is given
 
-import * as Discord from "discord.js";
+import Discord, { DiscordAPIError } from "discord.js";
 import { APIUser } from "discord-api-types";
 import { Student } from "ecoledirecte.js";
 import client from "../bot";
@@ -17,17 +17,22 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 
 	const self = guild.me;
 
-	const member = guild.members.cache.get(env("GUILD_ID"));
+	const member =
+		guild.members.cache.get(user.id) || (await guild.members.fetch(user.id));
 
 	if (!member || !guild || !self || !user) return;
 
 	const dm = await user.createDM();
 
 	//! Renommer
-	let failedRename = false;
 	const name = `${student._raw.prenom} ${student._raw.nom.substr(0, 1)}`;
-	if (self.permissions.has("MANAGE_NICKNAMES")) await member.setNickname(name);
-	else failedRename = true;
+	try {
+		await member.setNickname(name);
+	} catch (err) {
+		if (!(err instanceof DiscordAPIError)) {
+			throw err;
+		}
+	}
 
 	//! Ajouter rôle de clearance
 	const clearanceRole =
@@ -43,6 +48,7 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 
 	if (!classe) {
 		// Pas de classe disponible. Safe lock
+		console.log("no class");
 		return;
 	}
 
@@ -51,6 +57,7 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 
 	if (!nomRole) {
 		// Log anomaly
+		console.log("no level");
 		return;
 	}
 
@@ -68,9 +75,19 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 	const profile = new Discord.MessageEmbed()
 		.setTitle(`${student._raw.prenom} ${student._raw.nom}`)
 		.addField("Classe", classe.libelle)
-		.addField("Niveau", nomRole);
+		.addField("Niveau", nomRole)
+		.setThumbnail("attachment://pfp.jpg");
 
-	await dm.send({ content: message, embeds: [profile] });
+	const pfp = student.photo.buffer || (await student.getPhoto());
+	const attachment = pfp
+		? new Discord.MessageAttachment(pfp, "pfp.jpg")
+		: undefined;
+
+	await dm.send({
+		content: message,
+		embeds: [profile],
+		files: attachment ? [attachment] : undefined,
+	});
 
 	// Bienvenue ! Vous êtes maintenant connecté.e en tant que {nom}. Vous avez désormais accès à SPC-Tutorat.
 	// Du fait de votre classe, les rôles suivants vous ont été attribués : Troisième, Lycée.

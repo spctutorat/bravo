@@ -33,7 +33,7 @@ app.use(
 );
 
 app.get("/", function rootHandler(req, res) {
-	res.end("Hello world!");
+	res.send("Hello world!");
 });
 app.use("/login", loginRouter);
 app.use("/getUser", getUserRouter);
@@ -44,7 +44,9 @@ app.use(Sentry.Handlers.errorHandler());
 // Optional fallthrough error handler
 app.use(function onError(err, req, res, next) {
 	if (!err) return next();
-	res.status(500).json({ code: "UNHANDLED_ERROR" });
+	if (!res.writableEnded) {
+		res.status(500).json({ code: "UNHANDLED_ERROR" });
+	}
 } as ErrorRequestHandler);
 
 app.use((req, res) => {

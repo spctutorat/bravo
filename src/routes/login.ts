@@ -55,6 +55,8 @@ router.use("/", async (req, res) => {
 	// Is good
 	const fullName = (a: Student) => `${a._raw.prenom} ${a._raw.nom}`;
 
+	const pfp = await a.getPhoto();
+
 	//TODO Save user
 	const created = await prisma.user.create({
 		data: {
@@ -63,6 +65,7 @@ router.use("/", async (req, res) => {
 			fullName: fullName(a),
 			username: body.username,
 			password: body.password,
+			photo: pfp,
 		},
 	});
 
