@@ -1,5 +1,7 @@
 import Discord, { Intents } from "discord.js";
+import { idHandler } from "./commands/id";
 import { pingHandler } from "./commands/ping";
+import { rolesHandler } from "./commands/roles";
 import { env } from "./util/env";
 import { registerInteractions } from "./util/registerInteractions";
 import { initRoles } from "./util/roles";
@@ -19,8 +21,20 @@ client.on("ready", async () => {
 client.on("interactionCreate", async interaction => {
 	if (!interaction.isCommand()) return;
 
+	console.log(interaction.commandName);
+
 	if (interaction.commandName === "ping") {
 		pingHandler(client, interaction);
+		return;
+	}
+
+	if (interaction.commandName === "id") {
+		idHandler(client, interaction);
+		return;
+	}
+
+	if (interaction.commandName === "roles") {
+		rolesHandler(client, interaction);
 		return;
 	}
 });
