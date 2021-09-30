@@ -30,8 +30,6 @@ client.on("ready", async () => {
 client.on("interactionCreate", async interaction => {
 	if (!interaction.isCommand()) return;
 
-	console.log(interaction.commandName);
-
 	if (interaction.commandName === "ping") {
 		pingHandler(client, interaction);
 		return;
