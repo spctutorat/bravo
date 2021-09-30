@@ -69,12 +69,12 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 
 	//! Welcome message
 	const message = `
-		Bienvenue sur le serveur de tutorat pour SPC ! Vous avez été identifié.e avec succès. 
+		Bienvenue sur le serveur de tutorat pour SPC ! Vous avez été identifié.e avec succès. Les rôles vous correspondant ont été automatiquement ajoutés.
 	`;
 
 	const profile = new Discord.MessageEmbed()
 		.setTitle(`${student._raw.prenom} ${student._raw.nom}`)
-		.addField("Classe", classe.libelle)
+		.addField("Classe", classe.code)
 		.addField("Niveau", nomRole)
 		.setThumbnail("attachment://pfp.jpg");
 
