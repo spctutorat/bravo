@@ -45,4 +45,12 @@ export const commands = [
 				.setDescription("Personne à identifier")
 				.setRequired(false)
 		),
+
+	new SlashCommandBuilder()
+		.setName("login")
+		.setDescription("Prouvez votre identité"),
+
+	new SlashCommandBuilder()
+		.setName("logout")
+		.setDescription("Déconnectez-vous"),
 ].map(command => command.toJSON());

@@ -63,8 +63,6 @@ router.use("/", async (req, res) => {
 			id: a.edId,
 			discordId: user.id,
 			fullName: fullName(a),
-			username: body.username,
-			password: body.password,
 			photo: pfp,
 		},
 	});

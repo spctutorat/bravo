@@ -1,5 +1,6 @@
 import Discord, { Intents } from "discord.js";
 import { idHandler } from "./commands/id";
+import { loginHandler } from "./commands/login";
 import { pingHandler } from "./commands/ping";
 import { rolesHandler } from "./commands/roles";
 import { env } from "./util/env";
@@ -25,6 +26,11 @@ client.on("interactionCreate", async interaction => {
 
 	if (interaction.commandName === "ping") {
 		pingHandler(client, interaction);
+		return;
+	}
+
+	if (interaction.commandName === "login") {
+		loginHandler(client, interaction);
 		return;
 	}
 
