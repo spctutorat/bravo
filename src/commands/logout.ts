@@ -38,6 +38,7 @@ export const logoutHandler: InteractionHandler = async (
 					// Remove roles
 					const member = interaction.member as Discord.GuildMember;
 					await member.fetch();
+					//FIXME
 					await Promise.all(
 						member.roles.cache
 							.filter(r => ["OK", Object.values(rolesNiveau)].includes(r.name))
