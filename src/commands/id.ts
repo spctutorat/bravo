@@ -29,9 +29,13 @@ export const idHandler: InteractionHandler = async (client, interaction) => {
 		.setThumbnail("attachment://pfp.jpg")
 		.addField("Classe", doc.class ?? "Inconnue");
 
-	const attachment = pfp
-		? new Discord.MessageAttachment(pfp, "pfp.jpg")
-		: undefined;
+	const maySeePhoto =
+		interaction.user.id === doc.discordId || doc.publicPhoto !== false;
+
+	const attachment =
+		pfp && maySeePhoto
+			? new Discord.MessageAttachment(pfp, "pfp.jpg")
+			: undefined;
 
 	await interaction.reply({
 		embeds: [embed],

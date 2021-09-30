@@ -17,5 +17,6 @@ model User {
   lastValidated   DateTime    @default(now()) @db.Timestamp(6)
   fullName        String
   class           String?
-  photo           Bytes?       @db.ByteA
+  photo           Bytes?      @db.ByteA
+  publicPhoto     Boolean?
 }

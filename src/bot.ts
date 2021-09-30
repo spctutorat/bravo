@@ -1,9 +1,10 @@
 import Discord, { Intents } from "discord.js";
 import { idHandler } from "./commands/id";
+import { infoHandler } from "./commands/info";
 import { loginHandler } from "./commands/login";
 import { logoutHandler } from "./commands/logout";
 import { pingHandler } from "./commands/ping";
-import { rolesHandler } from "./commands/roles";
+import { preferencesHandler } from "./commands/preferences";
 import { env } from "./util/env";
 import { registerInteractions } from "./util/registerInteractions";
 import { initRoles } from "./util/roles";
@@ -30,24 +31,31 @@ client.on("ready", async () => {
 client.on("interactionCreate", async interaction => {
 	if (!interaction.isCommand()) return;
 
-	if (interaction.commandName === "ping") {
-		pingHandler(client, interaction);
-		return;
-	}
-
-	if (interaction.commandName === "login") {
-		loginHandler(client, interaction);
-		return;
-	}
-
-	if (interaction.commandName === "logout") {
-		logoutHandler(client, interaction);
-		return;
-	}
-
-	if (interaction.commandName === "id") {
-		idHandler(client, interaction);
-		return;
+	switch (interaction.commandName) {
+		case "ping": {
+			pingHandler(client, interaction);
+			break;
+		}
+		case "login": {
+			loginHandler(client, interaction);
+			break;
+		}
+		case "logout": {
+			logoutHandler(client, interaction);
+			break;
+		}
+		case "id": {
+			idHandler(client, interaction);
+			break;
+		}
+		case "info": {
+			infoHandler(client, interaction);
+			break;
+		}
+		case "preferences": {
+			preferencesHandler(client, interaction);
+			break;
+		}
 	}
 });
 
