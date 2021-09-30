@@ -24,7 +24,6 @@ export const logoutHandler: InteractionHandler = async (
 			const a =
 				(["✅", "❌"] as (string | null)[]).includes(reaction.emoji.name) &&
 				user.id === interaction.user.id;
-			console.log({ a });
 			return a;
 		};
 		reply
