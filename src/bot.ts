@@ -51,11 +51,6 @@ client.on("interactionCreate", async interaction => {
 		idHandler(client, interaction);
 		return;
 	}
-
-	if (interaction.commandName === "roles") {
-		rolesHandler(client, interaction);
-		return;
-	}
 });
 
 client.login(env("DISCORD_TOKEN"));
