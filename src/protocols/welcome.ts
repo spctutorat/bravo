@@ -69,23 +69,9 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 
 	//! Welcome message
 	const message = `
-		Bienvenue sur le serveur de tutorat pour SPC ! Vous avez été identifié.e avec succès. Les rôles vous correspondant ont été automatiquement ajoutés.
+		Bienvenue sur le serveur de tutorat pour SPC, ${student._raw.prenom} ! Vous avez été identifié.e avec succès. Les rôles vous correspondant ont été automatiquement ajoutés.
+		Vous pouvez voir votre profil et celui des autres avec \`/id\` à tout moment sur le serveur.
 	`;
 
-	const profile = new Discord.MessageEmbed()
-		.setTitle(`${student._raw.prenom} ${student._raw.nom}`)
-		.addField("Classe", classe.code)
-		.addField("Niveau", nomRole)
-		.setThumbnail("attachment://pfp.jpg");
-
-	const pfp = student.photo.buffer || (await student.getPhoto());
-	const attachment = pfp
-		? new Discord.MessageAttachment(pfp, "pfp.jpg")
-		: undefined;
-
-	await dm.send({
-		content: message,
-		embeds: [profile],
-		files: attachment ? [attachment] : undefined,
-	});
+	await dm.send({ content: message });
 }
