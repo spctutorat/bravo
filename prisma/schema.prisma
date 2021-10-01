@@ -14,7 +14,6 @@ model User {
   id              Int         @id @unique
   discordId       String      @unique
   createdAt       DateTime    @default(now()) @db.Timestamp(6)
-  lastValidated   DateTime    @default(now()) @db.Timestamp(6)
   fullName        String
   class           String?
   photo           Bytes?      @db.ByteA
