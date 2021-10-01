@@ -38,13 +38,10 @@ export const logoutHandler: InteractionHandler = async (
 					// Remove roles
 					const member = interaction.member as Discord.GuildMember;
 					await member.fetch();
-					//FIXME
-					await Promise.all(
-						member.roles.cache
-							.filter(r => ["OK", Object.values(rolesNiveau)].includes(r.name))
-							.map(r => member.roles.remove(r))
+					const toDelete = member.roles.cache.filter(r =>
+						["OK", ...Object.values(rolesNiveau)].includes(r.name)
 					);
-
+					member.roles.remove(toDelete);
 					// Inform user
 					await interaction.editReply(
 						"_Compte supprimé. Vos données ont été supprimées._"
