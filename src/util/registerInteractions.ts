@@ -6,10 +6,9 @@ import { env } from "./env";
 const rest = new REST({ version: "9" }).setToken(env("DISCORD_TOKEN"));
 
 export async function registerInteractions(): Promise<void> {
-	await rest.put(
-		Routes.applicationGuildCommands(env("DISCORD_ID"), env("GUILD_ID")),
-		{ body: commands }
-	);
+	await rest.put(Routes.applicationCommands(env("DISCORD_ID")), {
+		body: commands,
+	});
 
 	console.log("Successfully reloaded application (/) commands.");
 }
