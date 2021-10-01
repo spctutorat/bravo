@@ -48,11 +48,13 @@ export const rolesHandler: InteractionHandler = async (client, interaction) => {
 		if (role.name === "OK") {
 			return await interaction.reply({
 				content: "Pour vous connecter, utilisez `/login`.",
+				ephemeral: true,
 			});
 		}
 		if (Object.values(rolesNiveau).includes(role.name)) {
 			return await interaction.reply({
 				content: "Ceci est un rôle spécial. Vous ne pouvez pas vous l'ajouter.",
+				ephemeral: true,
 			});
 		}
 		if (role.name === "Tuteur") {
@@ -101,6 +103,7 @@ export const rolesHandler: InteractionHandler = async (client, interaction) => {
 		if (role.name === "OK") {
 			return await interaction.reply({
 				content: "Pour vous déconnecter, utilisez `/logout`.",
+				ephemeral: true,
 			});
 		}
 
