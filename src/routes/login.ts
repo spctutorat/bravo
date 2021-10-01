@@ -57,17 +57,18 @@ router.use("/", async (req, res) => {
 
 	const pfp = await a.getPhoto();
 
-	//TODO Save user
+	// Save user
 	const created = await prisma.user.create({
 		data: {
 			id: a.edId,
 			discordId: user.id,
 			fullName: fullName(a),
 			photo: pfp,
+			class: a._raw.profile?.classe?.code ?? undefined,
 		},
 	});
 
-	res.status(200).json({ user });
+	res.status(200).json({ user: created });
 
 	// Welcome Protocol
 	welcomeProtocol(user, a);
