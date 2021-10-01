@@ -1,5 +1,4 @@
 import prisma from "../util/db";
-import * as Discord from "discord.js";
 import { InteractionHandler } from "../util/types";
 
 export const preferencesHandler: InteractionHandler = async (

@@ -1,13 +1,16 @@
 // Triggered when ED & Discord access is given
 
-import Discord, { DiscordAPIError } from "discord.js";
+import { DiscordAPIError } from "discord.js";
 import { APIUser } from "discord-api-types";
 import { Student } from "ecoledirecte.js";
 import client from "../bot";
 import { env } from "../util/env";
 import { Niveau, rolesNiveau } from "../util/roles";
 
-export async function welcomeProtocol(doc: APIUser, student: Student) {
+export async function welcomeProtocol(
+	doc: APIUser,
+	student: Student
+): Promise<unknown> {
 	const user =
 		client.users.cache.get(doc.id) || (await client.users.fetch(doc.id));
 

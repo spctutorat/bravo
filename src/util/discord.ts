@@ -6,7 +6,9 @@ import {
 } from "discord-api-types";
 import { env } from "./env";
 
-export async function getTokenFromRefresh(refreshToken: string) {
+export async function getTokenFromRefresh(
+	refreshToken: string
+): Promise<RESTPostOAuth2AccessTokenResult> {
 	const data = new FormData();
 	data.append("client_id", env("DISCORD_ID"));
 	data.append("client_secret", env("DISCORD_SECRET"));
@@ -25,7 +27,9 @@ export async function getTokenFromRefresh(refreshToken: string) {
 	return tokenData;
 }
 
-export async function getTokenFromCode(code: string) {
+export async function getTokenFromCode(
+	code: string
+): Promise<RESTPostOAuth2AccessTokenResult> {
 	const data = new FormData();
 	data.append("client_id", env("DISCORD_ID"));
 	data.append("client_secret", env("DISCORD_SECRET"));
@@ -46,7 +50,9 @@ export async function getTokenFromCode(code: string) {
 	return tokenData;
 }
 
-export async function getUserFromToken(accessToken: string) {
+export async function getUserFromToken(
+	accessToken: string
+): Promise<RESTGetAPIUserResult> {
 	// Fetch user
 	const config = {
 		headers: {
