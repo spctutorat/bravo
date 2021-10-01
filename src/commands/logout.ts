@@ -43,16 +43,23 @@ export const logoutHandler: InteractionHandler = async (
 					);
 					member.roles.remove(toDelete);
 					// Inform user
-					await interaction.editReply(
-						"_Compte supprimé. Vos données ont été supprimées._"
-					);
+					const reply = (await interaction.editReply(
+						"✅ _Compte supprimé. Vos données et vos accès ont été supprimés._"
+					)) as Discord.Message;
+					await reply.reactions.removeAll();
 				} else {
 					// Cancel
-					await interaction.editReply("_Déconnexion annulée._");
+					const reply = (await interaction.editReply(
+						"❌ _Déconnexion annulée._"
+					)) as Discord.Message;
+					await reply.reactions.removeAll();
 				}
 			})
-			.catch(async collected => {
-				await interaction.editReply("_Aucune réaction : Déconnexion annulée._");
+			.catch(async () => {
+				const reply = (await interaction.editReply(
+					"❌ _Aucune réaction : Déconnexion annulée._"
+				)) as Discord.Message;
+				await reply.reactions.removeAll();
 			});
 		await reply.react("✅");
 		await reply.react("❌");

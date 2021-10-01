@@ -19,8 +19,9 @@ export const loginHandler: InteractionHandler = async (client, interaction) => {
 		// Send guide on how to login
 		const embed = new Discord.MessageEmbed()
 			.setTitle("Se connecter")
-			.setURL("http://localhost:3000/");
+			.setURL("http://localhost:3000/")
+			.setDescription("Vous connecter vous permet de prouver votre identité.");
 
-		await interaction.reply({ embeds: [embed] });
+		await interaction.reply({ embeds: [embed], ephemeral: true });
 	}
 };

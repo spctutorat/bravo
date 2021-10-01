@@ -10,12 +10,9 @@ export const idHandler: InteractionHandler = async (client, interaction) => {
 	const doc = await prisma.user.findUnique({
 		where: { discordId: target.id },
 	});
-
-	const targetUsername = target.username + "#" + target.discriminator;
-
 	if (!doc) {
 		await interaction.reply({
-			content: `L'utilisateur \`${targetUsername}\` n'a pas prouvé son identité.`,
+			content: `L'utilisateur <@${target.id}> n'a pas prouvé son identité.`,
 			ephemeral: true,
 		});
 		return;
@@ -24,7 +21,7 @@ export const idHandler: InteractionHandler = async (client, interaction) => {
 	const pfp = doc.photo;
 
 	const embed = new Discord.MessageEmbed()
-		.setAuthor(targetUsername, target.avatarURL() || undefined)
+		.setAuthor(target.username, target.avatarURL() || undefined)
 		.setTitle(doc.fullName)
 		.setThumbnail("attachment://pfp.jpg")
 		.addField("Classe", doc.class ?? "Inconnue");

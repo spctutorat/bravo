@@ -68,10 +68,12 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 	await member.roles.add(role);
 
 	//! Welcome message
-	const message = `
-		Bienvenue sur le serveur de tutorat pour SPC, ${student._raw.prenom} ! Vous avez été identifié.e avec succès. Les rôles vous correspondant ont été automatiquement ajoutés.
-		Vous pouvez voir votre profil et celui des autres avec \`/id\` à tout moment sur le serveur.
-	`;
+	const message =
+		"Bienvenue sur le serveur de tutorat pour SPC ! Vous avez été identifié.e avec succès. Les rôles vous correspondant ont été automatiquement ajoutés. " +
+		"Vous pouvez voir votre profil et celui des autres avec `/id` à tout moment sur le serveur. " +
+		"Pour plus d'informations, essayez `/info`.";
 
 	await dm.send({ content: message });
+	// await dm.messages.fetch();
+	// dm.messages.cache.map(m => m.deletable && m.delete());
 }
