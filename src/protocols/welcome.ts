@@ -74,6 +74,4 @@ export async function welcomeProtocol(doc: APIUser, student: Student) {
 		"Pour plus d'informations, essayez `/info`.";
 
 	await dm.send({ content: message });
-	// await dm.messages.fetch();
-	// dm.messages.cache.map(m => m.deletable && m.delete());
 }
