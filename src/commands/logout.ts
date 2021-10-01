@@ -46,20 +46,20 @@ export const logoutHandler: InteractionHandler = async (
 					const reply = (await interaction.editReply(
 						"✅ _Compte supprimé. Vos données et vos accès ont été supprimés._"
 					)) as Discord.Message;
-					await reply.reactions.removeAll();
+					await reply.reactions.removeAll().catch(() => null);
 				} else {
 					// Cancel
 					const reply = (await interaction.editReply(
 						"❌ _Déconnexion annulée._"
 					)) as Discord.Message;
-					await reply.reactions.removeAll();
+					await reply.reactions.removeAll().catch(() => null);
 				}
 			})
 			.catch(async () => {
 				const reply = (await interaction.editReply(
 					"❌ _Aucune réaction : Déconnexion annulée._"
 				)) as Discord.Message;
-				await reply.reactions.removeAll();
+				await reply.reactions.removeAll().catch(() => null);
 			});
 		await reply.react("✅");
 		await reply.react("❌");
@@ -68,6 +68,7 @@ export const logoutHandler: InteractionHandler = async (
 		await interaction.reply({
 			content:
 				"Vous n'êtes pas identifié.e. Utilisez `/login` pour vous connecter.",
+			ephemeral: true,
 		});
 	}
 };
