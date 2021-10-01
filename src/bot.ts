@@ -5,6 +5,7 @@ import { loginHandler } from "./commands/login";
 import { logoutHandler } from "./commands/logout";
 import { pingHandler } from "./commands/ping";
 import { preferencesHandler } from "./commands/preferences";
+import { rolesHandler } from "./commands/roles";
 import { env } from "./util/env";
 import { registerInteractions } from "./util/registerInteractions";
 import { initRoles } from "./util/roles";
@@ -54,6 +55,10 @@ client.on("interactionCreate", async interaction => {
 		}
 		case "preferences": {
 			preferencesHandler(client, interaction);
+			break;
+		}
+		case "roles": {
+			rolesHandler(client, interaction);
 			break;
 		}
 	}

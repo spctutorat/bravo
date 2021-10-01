@@ -1,6 +1,8 @@
 import {
 	SlashCommandBooleanOption,
 	SlashCommandBuilder,
+	SlashCommandRoleOption,
+	SlashCommandSubcommandBuilder,
 	SlashCommandUserOption,
 } from "@discordjs/builders";
 
@@ -35,5 +37,29 @@ export const commands = [
 				.setName("photo-publique")
 				.setDescription("Pouvons-nous montrer votre visage aux autres ?")
 				.setRequired(false)
+		),
+
+	new SlashCommandBuilder()
+		.setName("roles")
+		.setDescription("Choisissez vos rôles")
+		.addSubcommand(
+			new SlashCommandSubcommandBuilder()
+				.setName("add")
+				.setDescription("Ajoutez un rôle")
+				.addRoleOption(
+					new SlashCommandRoleOption()
+						.setName("role")
+						.setDescription("Rôle à ajouter")
+				)
+		)
+		.addSubcommand(
+			new SlashCommandSubcommandBuilder()
+				.setName("rem")
+				.setDescription("Supprimez un rôle")
+				.addRoleOption(
+					new SlashCommandRoleOption()
+						.setName("role")
+						.setDescription("Rôle à enlever")
+				)
 		),
 ].map(command => command.toJSON());

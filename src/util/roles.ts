@@ -15,7 +15,12 @@ export const rolesNiveau: Record<Niveau, string> = {
 };
 
 export async function initRoles(guild: Guild): Promise<void> {
-	const roleNames = ["OK", ...Object.values(rolesNiveau)];
+	const roleNames = [
+		"OK",
+		"Tuteur",
+		"Sous tutelle",
+		...Object.values(rolesNiveau),
+	];
 	await guild.roles.fetch();
 	await Promise.all(
 		roleNames.map(async n => {
