@@ -13,6 +13,9 @@ type Env = {
 	GUILD_ID: string;
 	SENTRY_DSN: string;
 	NODE_ENV: "development" | "production";
+	DATABASE_URL: string;
+	FRONTEND_URL: string;
+	REDIRECT_URL: string;
 };
 
 type RealEnv = Env & { [key: string]: string };

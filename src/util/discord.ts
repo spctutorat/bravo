@@ -34,7 +34,10 @@ export async function getTokenFromCode(
 	data.append("client_id", env("DISCORD_ID"));
 	data.append("client_secret", env("DISCORD_SECRET"));
 	data.append("grant_type", "authorization_code");
-	data.append("redirect_uri", "http://localhost:3000");
+	data.append(
+		"redirect_uri",
+		env("REDIRECT_URL", () => env("FRONTEND_URL"))
+	);
 	data.append("scope", "identify");
 	data.append("code", code);
 

@@ -28,7 +28,7 @@ app.use(Sentry.Handlers.tracingHandler());
 
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: env("FRONTEND_URL"),
 	})
 );
 
